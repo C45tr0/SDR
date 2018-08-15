@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  ubertooth:
+    build: ./ubertooth
+    image: sdr_ubertooth
+    command: bash
+    # Needed for usb access
+    privileged: true
+    # Needed for x11 forwarding
+    network_mode: "host"
+    environment: 
+      # Needed for x11 forwarding
+      - DISPLAY=$DISPLAY
+      # Fixes running x11 app as root?
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      # Forward ubertooth usb
+      - /dev/bus/usb:/dev/bus/usb
+      # Both needed for x11 forwarding
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $XAUTHORITY:/root/.Xauthority
